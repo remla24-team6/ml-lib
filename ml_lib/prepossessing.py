@@ -47,11 +47,10 @@ class Preprocessing:
 
         return raw_x, raw_y
 
-    def preprocess(self):
-        params = load_training_params()
-        raw_x_train, raw_y_train = self.load_dataset(os.path.join(params["dataset_dir"], "train.txt"))
-        raw_x_test, raw_y_test = self.load_dataset(os.path.join(params["dataset_dir"], "test.txt"))
-        raw_x_val, raw_y_val = self.load_dataset(os.path.join(params["dataset_dir"], "val.txt"))
+    def preprocess(self, dataset_dir):
+        raw_x_train, raw_y_train = self.load_dataset(os.path.join(dataset_dir, "train.txt"))
+        raw_x_test, raw_y_test = self.load_dataset(os.path.join(dataset_dir, "test.txt"))
+        raw_x_val, raw_y_val = self.load_dataset(os.path.join(dataset_dir, "val.txt"))
 
         tokenizer = Tokenizer(lower=True, char_level=True, oov_token=OOV_TOKEN)
         tokenizer.fit_on_texts(raw_x_train + raw_x_val + raw_x_test)
