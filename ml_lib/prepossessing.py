@@ -56,7 +56,6 @@ class Preprocessing:
         tokenizer.fit_on_texts(raw_x_train + raw_x_val + raw_x_test)
 
         encoder = LabelEncoder()
-        y_train = encoder.fit_transform(raw_y_train)
 
         # Save entire objects
         save_to_pickle_file(obj=tokenizer, pickle_path=os.path.join(OUTPUT_PATH, "tokenizer.pkl"))
