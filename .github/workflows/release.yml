@@ -1,4 +1,4 @@
-name: Python Package CI/CD
+name: Build and Publish Python Package
 
 on:
   push:
@@ -9,16 +9,15 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.11
+        python-version: '3.11'
 
     - name: Install Poetry
       run: pip install poetry
@@ -26,31 +25,29 @@ jobs:
     - name: Install dependencies
       run: poetry install
 
-    - name: Run tests
-      run: poetry run pytest  # Assuming you use pytest for testing
 
-    - name: Build package
-      run: poetry build
-
-  publish:
-    needs: build-and-test
+  build-and-publish:
+    needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
     - uses: actions/checkout@v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.11
+        python-version: '3.11'
 
     - name: Install Poetry
       run: pip install poetry
 
-    - name: Load artifact
+    - name: Install dependencies
       run: poetry install
 
-    - name: Publish to PyPI
+    - name: Build the package
+      run: poetry build
+
+    - name: Publish the package to PyPI
       run: poetry publish --username ${{ secrets.PYPI_USERNAME }} --password ${{ secrets.PYPI_PASSWORD }}
       env:
         PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
