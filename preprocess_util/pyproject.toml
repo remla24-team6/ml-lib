@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "preprocess-util"
+version = "0.1.0"
+description = ""
+authors = ["oltremare <oncwnuHZnY0Uo1jEvpEs9s-sZa78@git.weixin.qq.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.include]
+files = ["data/tokenized/tokenizer.pkl", "data/tokenized/label_encoder.pkl"]
