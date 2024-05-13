@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ml-lib"
+name = "ml-lib-remla"
 version = "0.0.0"
 description = ""
 authors = ["oltremare <oncwnuHZnY0Uo1jEvpEs9s-sZa78@git.weixin.qq.com>"]
