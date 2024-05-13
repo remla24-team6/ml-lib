@@ -5,9 +5,6 @@ description = ""
 authors = ["oltremare <oncwnuHZnY0Uo1jEvpEs9s-sZa78@git.weixin.qq.com>"]
 readme = "README.md"
 include = ["resources/tokenizer.pkl", "resources/label_encoder.pkl"]
-packages = [
-    { include = "ml-lib-remla" }
-]
 
 [tool.poetry.dependencies]
 python = "^3.11"
