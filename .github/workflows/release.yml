@@ -21,11 +21,10 @@ jobs:
         pip install poetry
     - name: Configure package repository
       run: |
-        poetry config repositories.test-pypi https://test.pypi.org/legacy/
-        poetry config pypi-token.test-pypi ${{ secrets.TEST_PY_TOKEN }}
+        poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
     - name: Bump poetry version
       run: poetry version ${{ env.version }}
     - name: Build and publish
       run: |
         poetry build
-        poetry publish -r test-pypi
+        poetry publish
