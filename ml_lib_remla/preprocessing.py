@@ -3,7 +3,7 @@ import pickle
 from typing import Tuple, List, Any
 from sklearn.preprocessing import LabelEncoder
 from transformers import BertTokenizer
-import torch
+import numpy as np
 from importlib_resources import files
 
 
@@ -30,17 +30,13 @@ class PreprocessingUtil:
         self.tokenizer = BertTokenizer.from_pretrained(model_name)
 
     @staticmethod
-    def _save_to_pickle_file(obj: Any, pickle_path: str) -> Any:
+    def _save_to_pickle_file(obj: Any, pickle_path: str) -> None:
         """Saves the given object into a pickle file defined by the pickle_path
 
         Args:
             obj: (Any): The object that needs to be dumped.
             pickle_path (str): Path to pickle file where object will be stored.
-
-        Returns:
-            Any: Returns the loaded object.
         """
-
         with open(pickle_path, "wb") as f:
             pickle.dump(obj, f)
 
@@ -113,45 +109,57 @@ class Preprocessing:
         Args:
             file_name (str): Name of the file to load.
         """
-
         file_path = files('resources').joinpath(file_name)
         with open(file_path, 'rb') as file:
             loaded_file = pickle.load(file)
             
         return loaded_file
 
-    def tokenize_batch(self, urls: List[str]) -> torch.Tensor:
+    def tokenize_batch(self, urls: List[str]) -> np.ndarray:
         """Performs the tokenization on a list of urls. This can be used to pre-process the entire dataset.
 
         Args:
             urls (List[str]): The list of urls to be tokenized.
 
         Returns:
-            torch.Tensor: Returns a tensor with shape (len(urls), maxlen).
+            np.ndarray: Returns a numpy array with shape (len(urls), maxlen).
         """
-        tokenized_urls = self.tokenizer(urls, padding='max_length', truncation=True, max_length=self.max_sequence_length, return_tensors="pt")
+        tokenized_urls = self.tokenizer(
+            urls,
+            padding='max_length',
+            truncation=True,
+            max_length=self.max_sequence_length,
+            return_tensors="np"
+        )
         return tokenized_urls['input_ids']
 
-    def tokenize_single(self, url: str) -> torch.Tensor:
+    def tokenize_single(self, url: str) -> np.ndarray:
         """Performs the tokenization for a single url. This can be used to pre-process a single url at inference time.
 
         Args:
             url (str): The url to be tokenized.
 
         Returns:
-            torch.Tensor: Returns a tensor with shape (maxlen).
+            np.ndarray: Returns a numpy array with shape (maxlen,).
         """
-        tokenized_url = self.tokenizer(url, padding='max_length', truncation=True, max_length=self.max_sequence_length, return_tensors="pt")
+        tokenized_url = self.tokenizer(
+            url,
+            padding='max_length',
+            truncation=True,
+            max_length=self.max_sequence_length,
+            return_tensors="np"
+        )
         return tokenized_url['input_ids'][0]
-    
-    def encode_label_batch(self, labels: List[str]) -> torch.Tensor:
+
+    def encode_label_batch(self, labels: List[str]) -> np.ndarray:
         """Performs the label encoding for a list of labels. This can be used to pre-process the target labels of the entire dataset.
 
         Args:
             labels (List[str]): List of labels that need to be encoded.
 
         Returns:
-            torch.Tensor: An array of shape (len(labels)).
+            np.ndarray: An array of shape (len(labels),).
         """
         encoded_labels = self.encoder.transform(labels)
-        return torch.tensor(encoded_labels)
+        return np.array(encoded_labels)
+
