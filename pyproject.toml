@@ -11,7 +11,7 @@ python = "^3.11"
 transformers = "^4.41.2"
 scikit-learn = "^1.4.2"
 importlib-resources = "^6.4.0"
-numpy = "^2.0.0"
+numpy = "^1.26.4"
 
 [build-system]
 requires = ["poetry-core"]
