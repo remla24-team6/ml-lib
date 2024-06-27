@@ -1,8 +1,9 @@
 name: Versioning
 
 on:
-  push
-
+    pull_request:
+        branches:
+        - main
 jobs:
   versioning:
     runs-on: ubuntu-22.04
