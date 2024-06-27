@@ -8,9 +8,10 @@ include = ["resources/tokenizer.pkl", "resources/label_encoder.pkl"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-tensorflow = "^2.16.1"
+transformers = "^4.41.2"
 scikit-learn = "^1.4.2"
 importlib-resources = "^6.4.0"
+numpy = "^1.26.4"
 
 [build-system]
 requires = ["poetry-core"]
